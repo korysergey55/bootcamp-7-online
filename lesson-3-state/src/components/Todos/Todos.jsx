@@ -1,6 +1,9 @@
 import { Component } from "react";
 import { v4 as uuid } from "uuid";
 import AddForm from "./AddForm/AddForm";
+import TodosStats from "./TodosStats/TodosStats";
+import TodosFilter from "./TodosFilter/TodosFilter";
+import TodosList from "./TodosList/TodosList";
 
 /*
 interface ITodos {
@@ -43,7 +46,7 @@ class Todos extends Component {
 
   handleDelete = (id) => {
     // ???
-    console.log(id);
+    // console.log(id);
     this.setState((prevState) => ({
       items: prevState.items.filter((item) => item.id !== id),
     }));
@@ -94,9 +97,7 @@ class Todos extends Component {
       return;
     }
 
-    const isDuplicate = this.state.items.some(
-      (item) => item.title === term
-    );
+    const isDuplicate = this.state.items.some((item) => item.title === term);
     // const isDuplicate = this.contacts.items.some(item => item.name === this.state.name || item.number === this.state.number );
     // console.log(isDuplicate, 'isDuplicate');
     if (isDuplicate) {
@@ -124,58 +125,34 @@ class Todos extends Component {
 
   render() {
     const { items, filter } = this.state;
+
     const itemsCount = items.length;
     // const toDoCompletedCount = this.state.items.filter(item => item.completed).length;
     const toDoCompletedCount = items.reduce(
       (acc, item) => (item.completed ? acc + 1 : acc),
       0
     );
+
     const formattedFilter = filter.toLowerCase().trim();
     const filteredItems = items.filter((item) =>
       item.title.toLowerCase().includes(formattedFilter)
     );
-    // dbhello
-    // console.log(toDoCompletedCount);
 
     return (
       <div className="container">
         <div className="row">
           <div className="col-6 offset-3 text-center">
-            <h3>
-              All: {itemsCount} || Completed: {toDoCompletedCount}
-            </h3>
-
-
-            <AddForm handleSubmit={this.handleSubmit} />
-
-            <input
-              name="filter"
-              type="text"
-              onChange={this.handleChange}
-              value={this.state.filter}
+            <TodosStats
+              itemsCount={itemsCount}
+              toDoCompletedCount={toDoCompletedCount}
             />
-            <ul>
-              {filteredItems.map((item) => (
-                <li
-                  key={item.id}
-                  className={
-                    item.completed ? "text-decoration-line-through" : ""
-                  }
-                >
-                  <div className="flex justify-content-between">
-                    <span onClick={() => this.toggleCompleted(item.id)}>
-                      {item.title}
-                    </span>
-                    {/*<button onClick={() => this.toggleCompleted(item.id)}>*/}
-                    {/*  Toggle*/}
-                    {/*</button>*/}
-                    <button onClick={() => this.handleDelete(item.id)}>
-                      Delete
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <AddForm handleSubmit={this.handleSubmit} />
+            <TodosFilter filter={filter} handleChange={this.handleChange} />
+            <TodosList
+              items={filteredItems}
+              handleDelete={this.handleDelete}
+              toggleCompleted={this.toggleCompleted}
+            />
           </div>
         </div>
       </div>

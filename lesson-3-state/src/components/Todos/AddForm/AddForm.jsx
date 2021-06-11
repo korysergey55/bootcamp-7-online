@@ -1,6 +1,12 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class AddForm extends Component {
+  static propTypes = {
+    handleSubmit: PropTypes.func.isRequired,
+  };
+
+  // typeof handleSubmit !== 'func' ? 'error': '';
   state = {
     term: "",
   };
@@ -11,9 +17,9 @@ class AddForm extends Component {
 
   onSubmit = (evt) => {
     evt.preventDefault();
-    console.log(this.props)
+    // console.log(this.props)
     this.props.handleSubmit(this.state.term);
-    this.setState({ term: '' })
+    this.setState({ term: "" });
   };
 
   render() {
@@ -31,7 +37,9 @@ class AddForm extends Component {
         {/*  onChange={this.handleChange}*/}
         {/*  value={this.state.number}*/}
         {/*/>*/}
-        <button type="submit">Add</button>
+        <button type="submit" className="px-3 py-3 bg-blue-600 text-white rounded-md ml-2">
+          Add
+        </button>
       </form>
     );
   }
