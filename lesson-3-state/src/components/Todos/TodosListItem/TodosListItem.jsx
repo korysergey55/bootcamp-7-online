@@ -23,6 +23,8 @@ TodosListItem.propTypes = {
     title: PropTypes.string.isRequired,
     createdAt: PropTypes.number.isRequired,
   }).isRequired,
+  toggleCompleted: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
 export default TodosListItem;
