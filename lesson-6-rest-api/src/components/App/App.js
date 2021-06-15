@@ -14,7 +14,7 @@ class App extends Component {
     selected: null,
   };
 
-  async componentDidMount() {}
+  // async componentDidMount() {}
 
   componentDidUpdate(prevProps, prevState) {
     if (
@@ -47,7 +47,7 @@ class App extends Component {
   };
 
   handleSubmit = (search) => {
-    this.setState({ search });
+    this.setState({ search, page: 1 });
   };
 
   showMore = () => {
