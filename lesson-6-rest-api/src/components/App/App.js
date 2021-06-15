@@ -47,7 +47,7 @@ class App extends Component {
   };
 
   handleSubmit = (search) => {
-    this.setState({ search, page: 1 });
+    this.setState({ search, data: [], page: 1 });
   };
 
   showMore = () => {
