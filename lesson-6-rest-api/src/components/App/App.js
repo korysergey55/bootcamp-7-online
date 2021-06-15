@@ -62,14 +62,36 @@ class App extends Component {
     this.setState({ selected: null });
   };
 
+  changeProduct = (idx) => {
+    const selected = this.state.data[idx];
+    // console.log(idx, selected);
+    if (!selected) {
+      this.setState({ selected: null });
+      return;
+    }
+    this.setState({ selected: { ...selected, idx } });
+  };
+
   render() {
     const { data, error, loading, page, endPage, selected } = this.state;
     return (
       <div className="container mx-auto px-4">
         <h3>Products</h3>
+
         <Modal open={!!selected} onClose={this.unSelectProduct}>
-          {selected && <img src={selected.thumbnail} alt={selected.name} />}
+          <div className="flex flex-column">
+            {selected && <img src={selected.thumbnail} alt={selected.name} />}
+            <div className="flex">
+              <button onClick={() => this.changeProduct(selected.idx - 1)}>
+                Prev Product
+              </button>
+              <button onClick={() => this.changeProduct(selected.idx + 1)}>
+                Next Product
+              </button>
+            </div>
+          </div>
         </Modal>
+
         <SearchForm searchProducts={this.handleSubmit} />
         {error && <p>{error?.message}</p>}
         {loading && (
@@ -79,14 +101,16 @@ class App extends Component {
         )}
         <ul className="grid grid-cols-4 gap-2">
           {data &&
-            data.map(({ _id, thumbnail, price, name: { ukr } }) => (
+            data.map(({ _id, thumbnail, price, name: { ukr } }, idx) => (
               <li key={_id}>
                 <img src={thumbnail} className="img-fluid" alt={ukr} />
                 <h3>{ukr}</h3>
                 Price <strong>{price}</strong>
                 <div className="actions">
                   <button
-                    onClick={() => this.selectProduct({ thumbnail, name: ukr })}
+                    onClick={() =>
+                      this.selectProduct({ thumbnail, name: ukr, idx })
+                    }
                     type="button"
                     className="bg-blue-500 py-2 px-10 hover:bg-blue-700 text-white rounded-md"
                   >

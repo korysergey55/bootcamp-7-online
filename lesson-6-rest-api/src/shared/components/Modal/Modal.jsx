@@ -19,10 +19,12 @@ class Modal extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.ref.current) {
+      console.log(this.ref.current, 'ref', 'work')
       if (this.props.open) {
         window.addEventListener("keydown", this.handleKeyDown);
         disableBodyScroll(this.ref.current);
       } else {
+        console.log('work')
         window.removeEventListener("keydown", this.handleKeyDown);
         enableBodyScroll(this.ref.current);
       }
@@ -71,20 +73,19 @@ class Modal extends Component {
             >
               &#8203;
             </span>
-            <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div  ref={this.ref} className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+              <button
+                  onClick={this.props.onClose}
+                  type="button"
+                  className="bg-red-500 px-2 py-2 text-white"
+              >
+                Крестик
+              </button>
               <div
                 className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4"
-                ref={this.ref}
               >
                 <div className="sm:flex flex-column sm:items-start">
                   {this.props.children}
-                  <button
-                    onClick={this.props.onClose}
-                    type="button"
-                    className="bg-red-500 px-2 py-2 text-white"
-                  >
-                    Крестик
-                  </button>
                 </div>
               </div>
             </div>
