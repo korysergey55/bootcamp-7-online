@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import parseQueryString from "../../lib/qs/parse-query-string";
 import { Link } from "react-router-dom";
+import SearchForm from "../../components/SearchForm/SearchForm";
 
 class TestPage extends Component {
   state = {
     data: [],
-    term: "",
   };
 
   componentDidMount() {
@@ -38,10 +38,15 @@ class TestPage extends Component {
     this.setState({ term: evt.target.value });
   };
 
-  handleSubmit = (evt) => {
-    evt.preventDefault();
-    const { history } = this.props;
-    history.push(`/test?query=${this.state.term}`);
+  handleSubmit = (term) => {
+    // evt.preventDefault();
+    const { history, location } = this.props;
+    const query = parseQueryString(location.search).query;
+    if (!term || term === query) {
+      return;
+    }
+
+    history.push(`/test?query=${term}`);
   };
 
   render() {
@@ -49,14 +54,15 @@ class TestPage extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            onChange={this.handleChange}
-            value={this.state.term}
-          />
-          <button type="submit">Search</button>
-        </form>
+        {/*<form onSubmit={this.handleSubmit}>*/}
+        {/*  <input*/}
+        {/*    type="text"*/}
+        {/*    onChange={this.handleChange}*/}
+        {/*    value={this.state.term}*/}
+        {/*  />*/}
+        {/*  <button type="submit">Search</button>*/}
+        {/*</form>*/}
+        <SearchForm searchProducts={this.handleSubmit} />
         <ul>
           {data.map((item) => (
             <li key={item.id}>
