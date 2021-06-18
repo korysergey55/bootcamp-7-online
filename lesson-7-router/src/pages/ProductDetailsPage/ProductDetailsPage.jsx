@@ -58,7 +58,7 @@ class ProductDetailsPage extends Component {
             state: location.state,
           }}
         >
-          Ingredients
+          Mods
         </Link>
 
         <Switch>

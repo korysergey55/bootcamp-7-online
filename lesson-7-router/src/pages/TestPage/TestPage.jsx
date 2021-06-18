@@ -39,7 +39,6 @@ class TestPage extends Component {
   };
 
   handleSubmit = (term) => {
-    // evt.preventDefault();
     const { history, location } = this.props;
     const query = parseQueryString(location.search).query;
     if (!term || term === query) {
