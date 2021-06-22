@@ -1,0 +1,14 @@
+import {DECREMENT, INCREMENT} from "./counter.constants";
+
+const increment = {
+    type: INCREMENT
+}
+
+const decrement = {
+    type: DECREMENT
+}
+
+export {
+    increment,
+    decrement
+}
