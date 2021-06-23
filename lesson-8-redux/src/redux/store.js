@@ -1,33 +1,27 @@
-import {createStore, combineReducers} from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { configureStore } from '@reduxjs/toolkit';
+import {persistReducer, persistStore} from "redux-persist";
+import storage from 'redux-persist/lib/storage';
+
 import counterReducer from "./counter/counter.reducer";
 import todosReducer from "./todos/todos.reducer";
 
-// const initialState = 0;
-//
-// const rootReducer = (state = initialState, action) => {
-//
-// }
+const persistConfig = {
+    key: 'todos',
+    storage,
+    whitelist: ['items']
+}
 
-const rootReducer = combineReducers({ counter: counterReducer, todos: todosReducer })
+const persistedReducer = persistReducer(persistConfig, todosReducer);
 
-const store = createStore(rootReducer, composeWithDevTools());
+const store  = configureStore({
+    devTools: true,
+    reducer: {
+        counter: counterReducer,
+        todos: persistedReducer
+    }
+})
 
-// const actionInc = {
-//     type: 'INCREMENT',
-// }
-//
-// const actionDec = {
-//     type: 'DECREMENT',
-// }
-//
-// console.log(store.dispatch(actionInc))
-// console.log(store.getState());
-//
-// console.log(store.dispatch(actionInc))
-// console.log(store.getState());
-//
-// console.log(store.dispatch(actionDec))
-// console.log(store.getState());
 
-export default store;
+const persistedStore = persistStore(store)
+
+export { store, persistedStore };

@@ -7,33 +7,15 @@ import TodosStats from "./TodosStats/TodosStats";
 import TodosFilter from "./TodosFilter/TodosFilter";
 import TodosList from "./TodosList/TodosList";
 import TodosStatusFilter from "./TodosStatusFilter/TodosStatusFilter";
-import {TodosStatusEnum} from "./todos-status.enum";
+// import {TodosStatusEnum} from "./todos-status.enum";
 import Modal from "../../shared/components/Modal/Modal";
-import {addNewToDo, removeToDo} from "../../redux/todos/todos.actions";
-
-/*
-interface ITodos {
-id: uuid or shortId;
-title: string;
-completed: boolean;
-createdAt: Date;
-}
-*/
-
-// const Section = ({ title = 'Hi', children }) => (
-//     <section className="container">
-//       <h3>{title}</h3>
-//       {children}
-//     </section>
-// )
-
-// <Section>Hello</Section>
+import {addNewToDo, removeToDo, toggleCompleted} from "../../redux/todos/todos.actions";
 
 class Todos extends Component {
     state = {
         // items: [],
-        filter: "",
-        status: TodosStatusEnum.ALL,
+        // filter: "",
+        // status: TodosStatusEnum.ALL,
         showModal: false,
     };
 
@@ -62,49 +44,49 @@ class Todos extends Component {
     //   }));
     // };
 
-    toggleCompleted = (id) => {
-        this.setState((prevState) => ({
-            items: prevState.items.map((item) =>
-                item.id === id
-                    ? {
-                        ...item,
-                        completed: !item.completed,
-                    }
-                    : item
-            ),
-        }));
-    };
+    // toggleCompleted = (id) => {
+    //     this.setState((prevState) => ({
+    //         items: prevState.items.map((item) =>
+    //             item.id === id
+    //                 ? {
+    //                     ...item,
+    //                     completed: !item.completed,
+    //                 }
+    //                 : item
+    //         ),
+    //     }));
+    // };
 
     handleChange = (evt) => {
         this.setState({[evt.target.name]: evt.target.value});
     };
 
-    handleSubmit = (term) => {
-        if (!term) {
-            alert("Поле не может быть пустым!");
-            return;
-        }
-
-        const isDuplicate = this.props.items.some((item) => item.title === term);
-        if (isDuplicate) {
-            alert("Такок дело уже существует " + term);
-            return;
-        }
-
-        const newTodo = {
-            id: uuid(),
-            title: term,
-            completed: false,
-            createdAt: Date.now(),
-        };
-
-        this.props.addNewToDo(newTodo);
-        this.setState({showModal: false})
-        // this.setState((prevState) => {
-        //   const newItems = [newTodo, ...prevState.items];
-        //   return { items: newItems, showModal: false };
-        // });
-    };
+    // handleSubmit = (term) => {
+    //     if (!term) {
+    //         alert("Поле не может быть пустым!");
+    //         return;
+    //     }
+    //
+    //     const isDuplicate = this.props.originalItems.some((item) => item.title === term);
+    //     if (isDuplicate) {
+    //         alert("Такок дело уже существует " + term);
+    //         return;
+    //     }
+    //
+    //     const newTodo = {
+    //         id: uuid(),
+    //         title: term,
+    //         completed: false,
+    //         createdAt: Date.now(),
+    //     };
+    //
+    //     this.props.addNewToDo(newTodo);
+    //     this.setState({showModal: false})
+    //     // this.setState((prevState) => {
+    //     //   const newItems = [newTodo, ...prevState.items];
+    //     //   return { items: newItems, showModal: false };
+    //     // });
+    // };
 
     toggleModal = () => {
         this.setState((prevState) => ({showModal: !prevState.showModal}));
@@ -112,7 +94,7 @@ class Todos extends Component {
 
     render() {
         // console.log("[render()]");
-        const {status} = this.state;
+        const {status } = this.state;
         const {items, toDoCompletedCount, itemsCount} = this.props;
 
         return (
@@ -128,20 +110,25 @@ class Todos extends Component {
                         {this.state.showModal && (
                             <Modal open={this.state.showModal} onClose={this.toggleModal}>
                                 <h3>Add new task!</h3>
-                                <AddForm handleSubmit={this.handleSubmit}/>
+                                <AddForm toggleModal={this.toggleModal} />
                             </Modal>
                         )}
 
-                        <TodosFilter/>
+                        {
+                            this.props.originalItems.length > 2 && (
+                                <TodosFilter/>
+                            )
+                        }
 
                         <TodosStatusFilter
                             status={status}
                             handleChange={this.handleChange}
                         />
+
                         <TodosList
                             items={items}
                             handleDelete={this.props.handleDelete}
-                            toggleCompleted={this.toggleCompleted}
+                            toggleCompleted={this.props.toggleCompleted}
                         />
                     </div>
                 </div>
@@ -166,9 +153,10 @@ const mapState = (state) => {
     );
     return {
         items: filteredItems,
+        originalItems: items,
         itemsCount,
         toDoCompletedCount,
-        filter: state.todos.filter,
+        // filter: state.todos.filter,
     }
 }
 
@@ -179,8 +167,8 @@ const mapState = (state) => {
 // }
 
 const mapDispatch = {
-    addNewToDo,
-    handleDelete: removeToDo
+    handleDelete: removeToDo,
+    toggleCompleted
 }
 
 export default connect(mapState, mapDispatch)(Todos);
