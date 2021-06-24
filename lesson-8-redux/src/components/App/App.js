@@ -1,13 +1,13 @@
 import React from "react";
-import Todos from "../Todos/Todos";
+// import Todos from "../Todos/Todos";
 // import ProductForm from "../ProductForm/ProductForm";
-// import Counter from "../Counter/Counter";
+import Counter from "../Counter/Counter";
 
 const App = () => {
   return (
     <div>
-      {/*<Counter />*/}
-      <Todos />
+      <Counter />
+      {/*<Todos />*/}
       {/*<ProductForm />*/}
     </div>
   );

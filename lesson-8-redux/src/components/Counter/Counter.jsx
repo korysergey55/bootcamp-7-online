@@ -14,6 +14,8 @@ const Decrement = ({handleDecrement}) => (
     </button>
 );
 
+
+
 const Value = ({value}) => <span>{value}</span>
 
 const Counter = ({value, increment, decrement}) => {
@@ -47,14 +49,14 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatch = (dispatch) => ({
-    increment: () => dispatch(increment),
-    decrement: () => dispatch(decrement),
-})
+// const mapDispatch = (dispatch) => ({
+//     increment: () => dispatch(increment()),
+//     decrement: () => dispatch(decrement()),
+// })
 
-// const mapDispatch = {
-//   increment,
-//   decrement
-// }
+const mapDispatch = {
+  increment: () => increment(),
+  decrement: () => decrement()
+}
 
 export default connect(mapStateToProps, mapDispatch)(Counter);
