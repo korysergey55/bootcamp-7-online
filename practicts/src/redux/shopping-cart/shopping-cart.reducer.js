@@ -1,5 +1,6 @@
 import { combineReducers, createReducer } from "@reduxjs/toolkit";
 import { addCartItem, removeCartItem } from "./shopping-cart.actions";
+import store from "../configure-store";
 
 const updateCartItem = (product, item = {}, count) => {
   const {
@@ -37,19 +38,27 @@ const updateCartItems = (cartItems, product) => {
 const updateOrder = (state, action, count) => {
   const cartItem = state.find((item) => item._id === action.payload._id);
   const newItem = updateCartItem(action.payload, cartItem, count);
+  const items = updateCartItems(state, newItem);
 
-  return updateCartItems(state, newItem);
+  const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
+  const total = items.reduce((acc, item) => acc + item.total, 0);
+
+  return { items, totalQuantity, total };
 };
 
-const items = createReducer([], {
-  [addCartItem]: (state, action) => updateOrder(state, action, 1),
-  [removeCartItem]: (state, action) => updateOrder(state, action, -1),
-});
+// const items = createReducer([], {
+//   [addCartItem]: (state, action) => updateOrder(state, action, 1),
+//   [removeCartItem]: (state, action) => updateOrder(state, action, -1),
+// });
 
-const totalItems = createReducer(0, {
-  // [addCartItem]: (state, action) => ac
-});
+// const totalItems = createReducer(0, {
+//   [addCartItem]: () =>
+//     store.getState().cart.items.reduce((acc, item) => acc + item.total),
+// });
 
-const shoppingCartReducer = combineReducers({ items, totalItems });
+const shoppingCartReducer = createReducer({ items: [], totalItems: 0, }, {
+  [addCartItem]: (state, action) => updateOrder(state.items, action, 1),
+  [removeCartItem]: (state, action) => updateOrder(state.items, action, -1),
+});
 
 export default shoppingCartReducer;
