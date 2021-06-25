@@ -1,6 +1,5 @@
-import { combineReducers, createReducer } from "@reduxjs/toolkit";
+import { createReducer } from "@reduxjs/toolkit";
 import { addCartItem, removeCartItem } from "./shopping-cart.actions";
-import store from "../configure-store";
 
 const updateCartItem = (product, item = {}, count) => {
   const {
@@ -56,9 +55,12 @@ const updateOrder = (state, action, count) => {
 //     store.getState().cart.items.reduce((acc, item) => acc + item.total),
 // });
 
-const shoppingCartReducer = createReducer({ items: [], totalItems: 0, }, {
-  [addCartItem]: (state, action) => updateOrder(state.items, action, 1),
-  [removeCartItem]: (state, action) => updateOrder(state.items, action, -1),
-});
+const shoppingCartReducer = createReducer(
+  { items: [], totalItems: 0 },
+  {
+    [addCartItem]: (state, action) => updateOrder(state.items, action, 1),
+    [removeCartItem]: (state, action) => updateOrder(state.items, action, -1),
+  }
+);
 
 export default shoppingCartReducer;
