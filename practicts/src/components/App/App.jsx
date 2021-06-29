@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {addCartItem, removeCartItem} from "../../redux/shopping-cart/shopping-cart.actions";
+
+import { addCartItem, removeCartItem } from "redux/shopping-cart";
 
 class App extends Component {
   state = {
@@ -8,6 +9,7 @@ class App extends Component {
     pager: null,
     error: null,
     product: null,
+    input: "",
   };
 
   async componentDidMount() {
@@ -24,13 +26,34 @@ class App extends Component {
     this.setState({ product });
   };
 
+  handleChange = (evt) => {
+    this.setState({ input: evt.target.value });
+  };
+
   render() {
     const { data, product } = this.state;
     const { cartItems } = this.props;
+
+    // const map = new Map();
+    // for (const [index, cartItem] of cartItems.entries()) {
+    //   map.set(index, cartItem);
+    // }
+    //
+    // if (map.has(0)) {
+    //   console.log([...map.values()])
+    // }
+    // const items = [1, 2, 1, 2, 2, 5, 5, 8, 8, 8];
+    // const uniqueArray = [...new Set(items)];
+
     return (
       <div>
         <h3 className="mb-5">More Products</h3>
-
+        {this.state.input}
+        <input
+          type="text"
+          onChange={this.handleChange}
+          value={this.state.input}
+        />
         <div className="grid grid-cols-2 gap-2">
           <div className="bg-gray-100 my-5">
             {product && (
@@ -50,8 +73,18 @@ class App extends Component {
                   <span>price: {item.price}</span>
                   <span>quantity: {item.quantity}</span>
                   <span>total: {item.total}</span>
-                  <button className="bg-yellow-500 px-2 py-2" onClick={() => this.props.removeCartItem(item)}>-</button>
-                  <button className="bg-blue-500 px-2 py-2" onClick={() => this.props.addCartItem(item)}>+</button>
+                  <button
+                    className="bg-yellow-500 px-2 py-2"
+                    onClick={() => this.props.removeCartItem(item)}
+                  >
+                    -
+                  </button>
+                  <button
+                    className="bg-blue-500 px-2 py-2"
+                    onClick={() => this.props.addCartItem(item)}
+                  >
+                    +
+                  </button>
                   <button className="bg-red-500 px-2 py-2">Удалить</button>
                 </li>
               ))}
@@ -88,7 +121,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatch = {
   addCartItem,
-  removeCartItem
+  removeCartItem,
 };
 
 export default connect(mapStateToProps, mapDispatch)(App);
