@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 
 import { addCartItem, removeCartItem } from "redux/shopping-cart";
 import { ProductsService } from "../../services/base-http.service";
+import ProductsGrid from "../ProductsGrid/ProductsGrid";
+import ProductsList from "../ProductsList/ProductsList";
 
 class App extends Component {
   http = ProductsService.getInstance();
@@ -51,7 +53,20 @@ class App extends Component {
     // }
     // const items = [1, 2, 1, 2, 2, 5, 5, 8, 8, 8];
     // const uniqueArray = [...new Set(items)];
+    // const [it1, it2] = items;
+    //console.log(rest)
+    //console.log(it1, it2)
+    // const map = new Map();
+    // map.set(1, 1);
+    // const newMap = { ...map };
+    // newMap.get(1);
+    // console.log(newMap);
 
+    const items = new Set(["item", "item2", "item3", "item"]);
+    const { item: hello, foo = 'bar', ...rest } = Object.fromEntries(items.entries());
+    // console.log()
+    console.log(rest)
+    console.log(hello, foo);
     return (
       <div>
         <h3 className="mb-5">More Products</h3>
@@ -72,50 +87,20 @@ class App extends Component {
             )}
           </div>
           <div>
-            <ul>
-              {cartItems.map((item) => (
-                <li className="flex gap-2" key={item.id}>
-                  <img src={item.thumbnail} alt={item.name.ukr} />
-                  <span>{item.name.ukr}</span>
-                  <span>price: {item.price}</span>
-                  <span>quantity: {item.quantity}</span>
-                  <span>total: {item.total}</span>
-                  <button
-                    className="bg-yellow-500 px-2 py-2"
-                    onClick={() => this.props.removeCartItem(item)}
-                  >
-                    -
-                  </button>
-                  <button
-                    className="bg-blue-500 px-2 py-2"
-                    onClick={() => this.props.addCartItem(item)}
-                  >
-                    +
-                  </button>
-                  <button className="bg-red-500 px-2 py-2">Удалить</button>
-                </li>
-              ))}
-            </ul>
+            <ProductsGrid
+              cartItems={cartItems}
+              addCartItem={this.props.addCartItem}
+              removeCartItem={this.props.removeCartItem}
+            />
           </div>
         </div>
 
         <div className="container mx-auto mt-10">
-          <ul className="grid grid-cols-4 gap-5">
-            {data.map((item) => (
-              <li key={item._id}>
-                <h3 onClick={() => this.selectProduct(item)}>
-                  {item.name.ukr}
-                </h3>
-                <button
-                  className="bg-blue-500 px-2 py-2"
-                  type="button"
-                  onClick={() => this.props.addCartItem(item)}
-                >
-                  Купить
-                </button>
-              </li>
-            ))}
-          </ul>
+          <ProductsList
+            data={data}
+            selectProduct={this.selectProduct}
+            addCartItem={this.props.addCartItem}
+          />
         </div>
       </div>
     );
