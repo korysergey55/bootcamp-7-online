@@ -2,23 +2,22 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { addCartItem, removeCartItem } from "redux/shopping-cart";
+import BaseHttpService from "../../services/base-http.service";
 
 class App extends Component {
+  http = BaseHttpService.getInstance();
+
   state = {
     data: [],
     pager: null,
     error: null,
     product: null,
-    input: "",
+    // input: "",
   };
 
   async componentDidMount() {
-    const f = await fetch(`https://amz-app.herokuapp.com/api/v1/products`);
-    if (!f.ok) {
-      this.setState({ error: f.statusText });
-      return;
-    }
-    const { result, pager } = await f.json();
+    const { data } = await this.http.get(`https://amz-app.herokuapp.com/api/v1/products`);
+    const { result, pager } = await data;
     this.setState({ data: result, pager });
   }
 
@@ -48,12 +47,12 @@ class App extends Component {
     return (
       <div>
         <h3 className="mb-5">More Products</h3>
-        {this.state.input}
-        <input
-          type="text"
-          onChange={this.handleChange}
-          value={this.state.input}
-        />
+        {/*{this.state.input}*/}
+        {/*<input*/}
+        {/*  type="text"*/}
+        {/*  onChange={this.handleChange}*/}
+        {/*  value={this.state.input}*/}
+        {/*/>*/}
         <div className="grid grid-cols-2 gap-2">
           <div className="bg-gray-100 my-5">
             {product && (
