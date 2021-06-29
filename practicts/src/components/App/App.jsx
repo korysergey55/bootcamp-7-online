@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { addCartItem, removeCartItem } from "redux/shopping-cart";
-import BaseHttpService from "../../services/base-http.service";
+import { ProductsService } from "../../services/base-http.service";
 
 class App extends Component {
-  http = BaseHttpService.getInstance();
+  http = ProductsService.getInstance();
 
   state = {
     data: [],
@@ -16,8 +16,16 @@ class App extends Component {
   };
 
   async componentDidMount() {
-    const { data } = await this.http.get(`https://amz-app.herokuapp.com/api/v1/products`);
-    const { result, pager } = await data;
+    // console.log(this.http.accessToken)
+    // console.log(this.http.accessToken)
+    // console.log(this.http.accessToken)
+
+    const { result, pager } = await this.http.getProducts({
+      limits: 10,
+      page: 1,
+      maxPrice: 300,
+    });
+
     this.setState({ data: result, pager });
   }
 
