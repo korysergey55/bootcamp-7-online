@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import routes from "routes/main.routes";
 
@@ -10,17 +10,19 @@ const Navbar = () => {
           Foodoo
         </Link>
 
-        <ul className="navbar-nav d-flex">
+        <ul className="navbar-nav flex-row">
           {routes.map((link) =>
             link.label ? (
-              <li className="nav-item">
-                <Link
-                  className="nav-link active"
+              <li className="nav-item px-3" key={link.path}>
+                <NavLink
+                  exact={link.exact}
+                  className="nav-link"
                   aria-current="page"
+                  activeClassName="active"
                   to={link.path}
                 >
                   {link.label}
-                </Link>
+                </NavLink>
               </li>
             ) : null
           )}

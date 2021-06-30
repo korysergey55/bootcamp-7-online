@@ -24,7 +24,7 @@ AppRoutes.propTypes = {
     PropTypes.shape({
       path: PropTypes.string.isRequired,
       exact: PropTypes.bool.isRequired,
-      component: PropTypes.node.isRequired,
+      component: PropTypes.object.isRequired,
       label: PropTypes.oneOfType([
         PropTypes.string.isRequired,
         PropTypes.any.isRequired,

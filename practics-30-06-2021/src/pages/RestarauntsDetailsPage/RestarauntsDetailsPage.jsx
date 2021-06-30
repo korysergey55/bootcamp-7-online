@@ -1,46 +1,53 @@
-import React from "react";
+import React, { Component } from "react";
 import RestaurantsService from "../../service/restaraunts.service";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-class HomePage extends React.Component {
+class RestarauntsDetailsPage extends Component {
   restaurantsService = RestaurantsService.getInstance();
 
   state = {
-    restaurants: [],
-    loading: false,
     error: null,
+    restaurant: null,
+    restaurants: [],
+    categories: [],
   };
 
   async componentDidMount() {
+    const { restId } = this.props.match.params;
     try {
-      const { data } = await this.restaurantsService.getRestaurants();
-      const { result } = data;
-      this.setState({ restaurants: result });
+      const { data } = await this.restaurantsService.getRestaurantDetails(
+        restId
+      );
+      this.setState(data);
     } catch (error) {
       this.setState({ error: error?.response?.data });
     }
   }
 
   render() {
-    const { restaurants} = this.state;
+    const { categories } = this.state;
+    const { url } = this.props.match;
 
     return (
       <div className="container">
-        <h1>Restaurants</h1>
-
         <div className="row">
           <div className="col-4">
-            {restaurants.map((item) => (
+            {categories.map((item) => (
               <div className="card">
                 <img
-                  src={item.logotype}
+                  src={item.thumbnail}
                   className="card-img-top"
                   alt={item.name.ukr}
                 />
                 <div className="card-body">
                   <h5 className="card-title">{item.name.ukr}</h5>
                   <p className="card-text">{item.description.ukr}</p>
-                  <Link to={`/restaurants/${item._id}`} className="btn btn-primary">Go to Shopping</Link>
+                  <Link
+                    to={`${url}/${item._id}`}
+                    className="btn btn-primary"
+                  >
+                    Go to Shopping
+                  </Link>
                 </div>
               </div>
             ))}
@@ -51,4 +58,4 @@ class HomePage extends React.Component {
   }
 }
 
-export default HomePage;
+export default RestarauntsDetailsPage;
