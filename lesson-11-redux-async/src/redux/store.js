@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import {configureStore, createSelector, getDefaultMiddleware} from '@reduxjs/toolkit';
 // import {persistReducer, persistStore} from "redux-persist";
 // import storage from 'redux-persist/lib/storage';
 
@@ -37,7 +37,7 @@ const thunk = (store) => (next) => (action) => {
 // }
 
 const store  = configureStore({
-    // middleware: [],
+    // middleware: [...getDefaultMiddleware()],
     devTools: true,
     reducer: {
         counter: counterReducer,
@@ -46,5 +46,6 @@ const store  = configureStore({
 })
 
 // const persistedStore = persistStore(store)
+
 
 export { store };

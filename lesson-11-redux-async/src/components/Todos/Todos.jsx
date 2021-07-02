@@ -8,7 +8,12 @@ import TodosList from "./TodosList/TodosList";
 import TodosStatusFilter from "./TodosStatusFilter/TodosStatusFilter";
 import Modal from "../../shared/components/Modal/Modal";
 import { getAllTodos, removeTodo, toggleCompleted } from '../../redux/todos/todos.operations'
-import {selectAllTodos, selectAllTodosCount, selectFilter} from "../../redux/todos/todos.selectors";
+import {
+  selectAllTodos,
+  selectAllTodosCount,
+  selectFilter,
+  selectFilteredItems
+} from "../../redux/todos/todos.selectors";
 
 class Todos extends Component {
   state = {
@@ -69,23 +74,13 @@ class Todos extends Component {
 
 const mapState = (state) => {
   const items = selectAllTodos(state);
-  const filter = selectFilter(state);
   const itemsCount = selectAllTodosCount(state);
 
-  const toDoCompletedCount = items.reduce(
-      (acc, item) => (item.completed ? acc + 1 : acc),
-      0
-  );
-
-  const formattedFilter = filter.toLowerCase().trim();
-  const filteredItems = items.filter((item) =>
-    item.title.toLowerCase().includes(formattedFilter)
-  );
   return {
-    items: filteredItems,
+    items: selectFilteredItems(state),
     originalItems: items,
     itemsCount,
-    toDoCompletedCount,
+    toDoCompletedCount: selectAllTodosCount(state),
     loading: state.todos.loading,
     // filter: state.todos.filter,
   };

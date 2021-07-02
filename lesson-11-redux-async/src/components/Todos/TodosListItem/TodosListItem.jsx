@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import PropTypes from "prop-types";
 import toLocaleTime from "../../../lib/to-locale-time";
 
@@ -27,4 +29,4 @@ TodosListItem.propTypes = {
   handleDelete: PropTypes.func.isRequired,
 };
 
-export default TodosListItem;
+export default memo(TodosListItem);
