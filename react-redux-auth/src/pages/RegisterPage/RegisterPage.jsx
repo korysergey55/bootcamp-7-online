@@ -27,7 +27,9 @@ export const FormControl = ({ label, ...props }) => {
         {...props}
       />
       {/*<ErrorMessage name={field.name} component="p" className="text-red-500" />*/}
-      {meta.error && meta.touched && <p className="text-red-500">{meta.error}</p>}
+      {meta.error && meta.touched && (
+        <p className="text-red-500">{meta.error}</p>
+      )}
     </div>
   );
 };
