@@ -8,7 +8,10 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Напиши email будь добр!")
     .required("Поле обязательное!"),
-  password: Yup.string().required("Поле обязательное!"),
+  password: Yup.string()
+    .required()
+    .min(3, "Must be exactly 3 digits")
+    .max(10, "Must be exactly 10 digits"),
 });
 
 export const FormControl = ({ label, ...props }) => {
