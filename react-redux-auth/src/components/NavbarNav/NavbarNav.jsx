@@ -2,8 +2,9 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { selectIsAuth } from "../../redux/auth/auth.selectors";
+import { logout } from "../../redux/auth/auth.operations";
 
-const NavbarNav = ({ routes = [], loginIn }) => {
+const NavbarNav = ({ routes = [], loginIn, logout }) => {
   return (
     <ul className="flex gap-x-2 my-5">
       {routes.map((route) =>
@@ -20,9 +21,20 @@ const NavbarNav = ({ routes = [], loginIn }) => {
         ) : null
       )}
       {loginIn ? (
-        <li>
-          <Link to="/profile">Profile</Link>
-        </li>
+        <>
+          <li>
+            <Link to="/profile">Profile</Link>
+          </li>
+          <li>
+            <button
+              type="button"
+              className="bg-blue-500 rounded-md"
+              onClick={logout}
+            >
+              Logout
+            </button>
+          </li>
+        </>
       ) : (
         <>
           <NavLink to={"/login"} activeClassName="bg-blue-500">
@@ -36,8 +48,9 @@ const NavbarNav = ({ routes = [], loginIn }) => {
     </ul>
   );
 };
+
 const mapStateToProps = (state) => ({
   loginIn: selectIsAuth(state),
 });
 
-export default connect(mapStateToProps)(NavbarNav);
+export default connect(mapStateToProps, { logout })(NavbarNav);

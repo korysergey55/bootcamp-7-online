@@ -12,6 +12,8 @@ const getCurrentUserRequested = createAction("auth/getCurrentUserRequested");
 const getCurrentUserSuccess = createAction("auth/getCurrentUserSuccess");
 const getCurrentUserFailure = createAction("auth/getCurrentUserFailure");
 
+const logoutSuccess = createAction("auth/logoutSuccess");
+
 export {
   getCurrentUserRequested,
   loginRequested,
@@ -22,4 +24,5 @@ export {
   loginFailure,
   loginSuccess,
   registerRequested,
+  logoutSuccess,
 };

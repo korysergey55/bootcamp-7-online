@@ -6,13 +6,23 @@ import NavbarNav from "../NavbarNav/NavbarNav";
 // import HomePage from "../../pages/HomePage/HomePage";
 // import ProductsPage from "../../pages/ProductsPage/ProductsPage";
 
-const App = () => {
-  return (
-    <div>
-      <NavbarNav routes={ROUTES} />
-      <AppRoutes routes={ROUTES} fallback={<p>Loading...</p>} />
-    </div>
-  );
-};
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getCurrentUser } from "../../redux/auth/auth.operations";
 
-export default App;
+class App extends Component {
+  componentDidMount() {
+    this.props.getCurrentUser();
+  }
+
+  render() {
+    return (
+      <div>
+        <NavbarNav routes={ROUTES} />
+        <AppRoutes routes={ROUTES} fallback={<p>Loading...</p>} />
+      </div>
+    );
+  }
+}
+
+export default connect(null, { getCurrentUser })(App);

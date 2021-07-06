@@ -1,8 +1,10 @@
-import { Formik, Form, ErrorMessage, useField } from "formik";
+import { useField } from "formik";
 import { useMemo } from "react";
-import * as Yup from "yup";
-import { register } from "../../redux/auth/auth.operations";
 import { connect } from "react-redux";
+import * as Yup from "yup";
+
+import { register } from "../../redux/auth";
+import AuthForm from "../../components/AuthForm";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -12,6 +14,7 @@ const validationSchema = Yup.object().shape({
     .required()
     .min(3, "Must be exactly 3 digits")
     .max(10, "Must be exactly 10 digits"),
+  username: Yup.string().required("Поле обязательное!"),
 });
 
 export const FormControl = ({ label, ...props }) => {
@@ -37,20 +40,39 @@ export const FormControl = ({ label, ...props }) => {
   );
 };
 
+const dataSource = [
+  {
+    name: "email",
+    type: "email",
+    label: "Email",
+  },
+  {
+    name: "password",
+    type: "password",
+    label: "Password",
+  },
+  {
+    name: "username",
+    type: "text",
+    label: "User Name",
+  },
+];
+
 const RegisterPage = ({ register }) => {
   return (
     <div>
-      <Formik
-        initialValues={{ email: "", password: "" }}
+      <AuthForm
+        initialValues={{
+          email: "",
+          password: "",
+          username: "",
+          redirectUrl: window.location.href,
+        }}
+        dataSource={dataSource}
         validationSchema={validationSchema}
-        onSubmit={register}
-      >
-        <Form>
-          <FormControl name="email" type="email" label="Email" />
-          <FormControl name="password" type="password" label="Password" />
-          <button type="submit">Register</button>
-        </Form>
-      </Formik>
+        submitAction={register}
+        submitText="Register"
+      />
     </div>
   );
 };

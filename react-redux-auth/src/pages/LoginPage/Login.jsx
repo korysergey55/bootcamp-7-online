@@ -1,34 +1,42 @@
-import { Form, Formik } from "formik";
-import { FormControl } from "../RegisterPage/RegisterPage";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import * as Yup from "yup";
 
-import {login} from "../../redux/auth/auth.operations";
+import { login } from "../../redux/auth";
+import AuthForm from "../../components/AuthForm";
 
 const validationSchema = Yup.object().shape({
-    email: Yup.string()
-        .email("Напиши email будь добр!")
-        .required("Поле обязательное!"),
-    password: Yup.string().required("Поле обязательное!"),
+  email: Yup.string()
+    .email("Напиши email будь добр!")
+    .required("Поле обязательное!"),
+  password: Yup.string().required("Поле обязательное!"),
 });
 
+const dataSource = [
+  {
+    name: "email",
+    type: "email",
+    label: "Email",
+  },
+  {
+    name: "password",
+    type: "password",
+    label: "Password",
+  },
+];
 
 const LoginPage = ({ login }) => {
   return (
     <div>
-      <Formik
-        initialValues={{ email: "", password: "" }}
-        validationSchema={validationSchema}
-        onSubmit={(values) => {
-            login(values);
+      <AuthForm
+        initialValues={{
+          email: "",
+          password: "",
         }}
-      >
-        <Form>
-          <FormControl name="email" type="email" label="Email" />
-          <FormControl name="password" type="password" label="Password" />
-          <button type="submit">Login</button>
-        </Form>
-      </Formik>
+        dataSource={dataSource}
+        validationSchema={validationSchema}
+        submitAction={login}
+        submitText="Login"
+      />
     </div>
   );
 };
@@ -36,8 +44,7 @@ const LoginPage = ({ login }) => {
 const mapStateToProps = (state) => ({});
 
 const mapDispatchProps = {
-    login,
+  login,
 };
-
 
 export default connect(mapStateToProps, mapDispatchProps)(LoginPage);
