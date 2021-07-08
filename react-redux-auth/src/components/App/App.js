@@ -6,23 +6,24 @@ import NavbarNav from "../NavbarNav/NavbarNav";
 // import HomePage from "../../pages/HomePage/HomePage";
 // import ProductsPage from "../../pages/ProductsPage/ProductsPage";
 
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { getCurrentUser } from "../../redux/auth/auth.operations";
+import React, { useEffect } from "react";
+import {  useDispatch } from "react-redux";
+import { getCurrentUser } from "../../redux/auth";
 
-class App extends Component {
-  componentDidMount() {
-    this.props.getCurrentUser();
-  }
+const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCurrentUser());
+  }, [dispatch]);
 
-  render() {
-    return (
-      <div>
-        <NavbarNav routes={ROUTES} />
-        <AppRoutes routes={ROUTES} fallback={<p>Loading...</p>} />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <NavbarNav routes={ROUTES} />
+      <AppRoutes routes={ROUTES} fallback={<p>Loading...</p>} />
+    </div>
+  );
+};
 
-export default connect(null, { getCurrentUser })(App);
+// export default connect(null, { getCurrentUser })(App);
+
+export default App;

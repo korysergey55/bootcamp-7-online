@@ -1,16 +1,11 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
 
-import { selectIsAuth } from "../../redux/auth/auth.selectors";
+import useAuth from "../../lib/use-auth";
 
-const PublicRoute = ({
-  path,
-  component: Component,
-  exact,
-  restricted,
-  loginIn,
-}) => {
+const PublicRoute = ({ path, component: Component, exact, restricted }) => {
+  const loginIn = useAuth();
+
   return (
     <Route
       path={path}
@@ -26,8 +21,4 @@ const PublicRoute = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  loginIn: selectIsAuth(state),
-});
-
-export default connect(mapStateToProps)(PublicRoute);
+export default PublicRoute;

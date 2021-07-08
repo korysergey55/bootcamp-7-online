@@ -1,9 +1,9 @@
-import { connect } from "react-redux";
 import { Redirect, Route } from "react-router-dom";
+import useAuth from "../../lib/use-auth";
 
-import { selectIsAuth } from "../../redux/auth";
 
-const PrivateRoute = ({ path, component: Component, exact, loginIn }) => {
+const PrivateRoute = ({ path, component: Component, exact }) => {
+  const loginIn = useAuth()
   return (
     <Route
       path={path}
@@ -15,8 +15,4 @@ const PrivateRoute = ({ path, component: Component, exact, loginIn }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  loginIn: selectIsAuth(state),
-});
-
-export default connect(mapStateToProps)(PrivateRoute);
+export default PrivateRoute;

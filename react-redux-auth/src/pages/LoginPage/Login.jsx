@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import * as Yup from "yup";
 
 import { login } from "../../redux/auth";
@@ -24,7 +24,12 @@ const dataSource = [
   },
 ];
 
-const LoginPage = ({ login }) => {
+const LoginPage = () => {
+  const dispatch = useDispatch();
+  const signIn = (userCredentials) => {
+    dispatch(login(userCredentials));
+  }
+
   return (
     <div>
       <AuthForm
@@ -34,17 +39,20 @@ const LoginPage = ({ login }) => {
         }}
         dataSource={dataSource}
         validationSchema={validationSchema}
-        submitAction={login}
+        submitAction={signIn}
         submitText="Login"
       />
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({});
+//
+// const mapStateToProps = (state) => ({});
+//
+// const mapDispatchProps = {
+//   login,
+// };
+//
+// export default connect(mapStateToProps, mapDispatchProps)(LoginPage);
 
-const mapDispatchProps = {
-  login,
-};
-
-export default connect(mapStateToProps, mapDispatchProps)(LoginPage);
+export default LoginPage;

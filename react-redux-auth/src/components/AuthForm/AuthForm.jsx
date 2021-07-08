@@ -2,7 +2,13 @@ import React from "react";
 import { Form, Formik } from "formik";
 import { FormControl } from "../../pages/RegisterPage/RegisterPage";
 
-const AuthForm = ({ initialValues,submitAction, submitText, validationSchema, dataSource = [] }) => {
+const AuthForm = ({
+  initialValues,
+  submitAction,
+  submitText,
+  validationSchema,
+  dataSource = [],
+}) => {
   return (
     <Formik
       initialValues={initialValues}
@@ -10,8 +16,12 @@ const AuthForm = ({ initialValues,submitAction, submitText, validationSchema, da
       onSubmit={submitAction}
     >
       <Form>
-        {dataSource.map(input => (
-            <FormControl name={input.name} type={input.type} label={input.label} />
+        {dataSource.map((input) => (
+          <FormControl
+            name={input.name}
+            type={input.type}
+            label={input.label}
+          />
         ))}
         <button type="submit">{submitText}</button>
       </Form>

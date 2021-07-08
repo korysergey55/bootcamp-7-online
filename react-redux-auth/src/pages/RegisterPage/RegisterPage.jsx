@@ -1,6 +1,6 @@
 import { useField } from "formik";
 import { useMemo } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 
 import { register } from "../../redux/auth";
@@ -58,7 +58,13 @@ const dataSource = [
   },
 ];
 
-const RegisterPage = ({ register }) => {
+const RegisterPage = () => {
+  const dispatch = useDispatch();
+  const signUp = (values) => {
+    dispatch(register(values));
+  };
+
+
   return (
     <div>
       <AuthForm
@@ -70,17 +76,19 @@ const RegisterPage = ({ register }) => {
         }}
         dataSource={dataSource}
         validationSchema={validationSchema}
-        submitAction={register}
+        submitAction={signUp}
         submitText="Register"
       />
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({});
+// const mapStateToProps = (state) => ({});
+//
+// const mapDispatchProps = {
+//   register,
+// };
+//
+// export default connect(mapStateToProps, mapDispatchProps)(RegisterPage);
 
-const mapDispatchProps = {
-  register,
-};
-
-export default connect(mapStateToProps, mapDispatchProps)(RegisterPage);
+export default RegisterPage;

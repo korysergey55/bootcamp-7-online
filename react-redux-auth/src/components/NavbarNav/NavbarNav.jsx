@@ -1,8 +1,8 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
-import { selectIsAuth } from "../../redux/auth/auth.selectors";
-import { logout } from "../../redux/auth/auth.operations";
+import { selectIsAuth } from "../../redux/auth";
+import { logout } from "../../redux/auth";
 
 const NavbarNav = ({ routes = [], loginIn, logout }) => {
   return (
@@ -21,20 +21,20 @@ const NavbarNav = ({ routes = [], loginIn, logout }) => {
         ) : null
       )}
       {loginIn ? (
-        <>
-          <li>
-            <Link to="/profile">Profile</Link>
-          </li>
+          <>
+        <li>
+          <Link to="/profile">Profile</Link>
+        </li>
           <li>
             <button
-              type="button"
-              className="bg-blue-500 rounded-md"
-              onClick={logout}
+                type="button"
+                className="bg-blue-500 rounded-md"
+                onClick={logout}
             >
               Logout
             </button>
           </li>
-        </>
+          </>
       ) : (
         <>
           <NavLink to={"/login"} activeClassName="bg-blue-500">
