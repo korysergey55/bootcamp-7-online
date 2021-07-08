@@ -1,4 +1,4 @@
-import {connect, useDispatch} from "react-redux";
+import { useDispatch} from "react-redux";
 import * as Yup from "yup";
 
 import { login } from "../../redux/auth";

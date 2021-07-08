@@ -8,7 +8,7 @@ const selectUser = (state) => state.auth.user;
 const useAuth = () => {
 const loading = useSelector(selectLoading);
 const user = useSelector(selectUser);
-const error = useSelector((state) => state.auth.error);
+const error = useSelector(selectError);
     console.log(loading, error, user)
    // const state =     useSelector((state) => state.auth.token)
    //
@@ -16,8 +16,8 @@ const error = useSelector((state) => state.auth.error);
     return useSelector(reselect);
 }
 
-const mapStateToProps = (state) => ({
-    token: state.auth.token
-})
+// const mapStateToProps = (state) => ({
+//     token: state.auth.token
+// })
 
 export default useAuth;
